@@ -1,4 +1,5 @@
-﻿using IWantApp.Domain.Products;
+﻿using Flunt.Notifications;
+using IWantApp.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
@@ -15,6 +16,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Ignore<Notification>();
         builder.Entity<Product>().Property(p => p.Description).IsRequired(false);
         builder.Entity<Product>().Property(p => p.Name).HasMaxLength(255).IsRequired();
         builder.Entity<Product>().Property(p => p.CategoryId).IsRequired();
