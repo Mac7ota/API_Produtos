@@ -14,7 +14,7 @@ public class CategoryPost
         var category = new Category(categoryRequest.Name, "T", "T");
 
         if (!category.IsValid)
-            return Results.ValidationProblem(category.Notifications.GroupBy(g => g.Key).ToDictionary(g => g.Key, g => g.Select(X => X.Message).ToArray()));
+            return Results.ValidationProblem(category.Notifications.ConverToProblemDetails());
 
         context.Categories.Add(category);
         context.SaveChanges();
