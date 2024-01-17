@@ -11,16 +11,10 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category(categoryRequest.Name)
-        {
-            CreatedBy = "test",
-            CreatedOn = DateTime.UtcNow,
-            EditedBy = "test",
-            EditedOn = DateTime.UtcNow,
-        };
-        
-        if(!category.IsValid)
-            return Results.BadRequest(category.Notifications);
+        var category = new Category(categoryRequest.Name, "T", "T");
+
+        if (!category.IsValid)
+            return Results.ValidationProblem(category.Notifications.GroupBy(g => g.Key).ToDictionary(g => g.Key, g => g.Select(X => X.Message).ToArray()));
 
         context.Categories.Add(category);
         context.SaveChanges();
